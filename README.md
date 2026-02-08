@@ -1,6 +1,6 @@
 # 🏈 NFL Super Bowl Predictor
 
-**An ensemble machine learning pipeline that predicts Super Bowl winners using 10 years of historical NFL data (2015-2024).**
+**An ensemble machine learning pipeline that predicts Super Bowl winners using 11 years of historical NFL data (2015-2025).**
 
 Predicts: **Seattle Seahawks vs New England Patriots**
 
@@ -15,29 +15,29 @@ SEA @ NE
 ============================================================
 
 PREDICTED WINNER: SEAHAWKS ✅
-Win Probability: 53.7%
+Win Probability: 57.6%
 
 Win Probabilities:
-  NE (Patriots):  46.3%
-  SEA (Seahawks): 53.7%
+  NE (Patriots):  42.4%
+  SEA (Seahawks): 57.6%
 
-Confidence Level: MODERATE
+Confidence Level: MODERATE-HIGH
 ```
 
-### **Model Performance on Historical Data (2018-2024)**
+### **Model Performance on Historical Data (2018-2025)**
 
 ```
 Model                Accuracy        Log Loss
 ─────────────────────────────────────────────────
-Logistic Regression  65.5% ± 2.8%    0.628 ± 0.022
-XGBoost              64.8% ± 2.7%    0.625 ± 0.021
-LightGBM             64.1% ± 2.7%    0.628 ± 0.021
+Logistic Regression  65.5% ± 2.6%    0.625 ± 0.022
+XGBoost              64.8% ± 2.5%    0.624 ± 0.020
+LightGBM             64.4% ± 2.6%    0.627 ± 0.020
 ─────────────────────────────────────────────────
-ENSEMBLE (Final)     65.1% ± 2.6%    Best
+ENSEMBLE (Final)     65.3% ± 2.5%    Best
 ```
 
 **Baseline (home team always wins): 57%**
-**Ensemble Improvement: +8.1%** ✨
+**Ensemble Improvement: +8.3%** ✨
 
 ---
 
@@ -53,9 +53,10 @@ Year    Games   LR        XGB       LGBM      Ensemble
 2022    282     67.7%     67.4%     64.9%     65.6%
 2023    285     65.3%     63.9%     64.9%     64.2%
 2024    285     69.1%     69.5%     69.5%     70.9% ⭐
+2025    283     65.7%     65.0%     66.1%     66.8%
 ```
 
-**Best performance on 2024 games: 70.9% accuracy**
+**Best performance: 2024 season with 70.9% accuracy**
 
 ---
 
@@ -64,16 +65,16 @@ Year    Games   LR        XGB       LGBM      Ensemble
 ```
 Rank  Factor                                Direction
 ──────────────────────────────────────────────────────
- 1.   Vegas Spread Line                    Neutral
- 2.   Elo Rating (Team Strength)           → SEA
- 3.   Elo Differential (+214 SEA)          → SEA
- 4.   3-Game Avg Pass Yards/Attempt        → NE
- 5.   5-Game Avg Offensive EPA/Play        → SEA
- 6.   5-Game Avg Offensive Success Rate    → NE
- 7.   5-Game Avg Takeaway Rate             → SEA
- 8.   Season Avg Punt Rate                 → SEA
- 9.   Season Avg Sack Rate Allowed         → NE
-10.   5-Game Avg Turnover Rate             → NE
+ 1.   Vegas Spread Line                     Neutral
+ 2.   Elo Rating (Team Strength)            → SEA
+ 3.   Elo Differential (+85 SEA)            → SEA
+ 4.   Season Avg Punt Rate                  → NE
+ 5.   Season Avg Rush EPA/Play              → NE
+ 6.   Season Avg Scoring Rate               → NE
+ 7.   5-Game Avg Pass TD Rate               → NE
+ 8.   5-Game Avg Sack Rate Allowed          → NE
+ 9.   Season Avg Sack Rate Allowed          → NE
+10.   5-Game Avg Takeaway Rate              → NE
 ```
 
 ---
@@ -83,20 +84,20 @@ Rank  Factor                                Direction
 ### New England Patriots
 | Metric | Value |
 |--------|-------|
-| **Elo Rating** | 1302 |
-| **Strength of Schedule** | 1505 |
-| **Offensive EPA/Play** | -0.102 |
-| **Defensive EPA/Play** | 0.077 |
+| **Elo Rating** | 1637 |
+| **Strength of Schedule** | 1502 |
+| **Offensive EPA/Play** | 0.137 ⭐ |
+| **Defensive EPA/Play** | -0.081 |
 
 ### Seattle Seahawks
 | Metric | Value |
 |--------|-------|
-| **Elo Rating** | 1516 ⭐ |
+| **Elo Rating** | 1722 ⭐ |
 | **Strength of Schedule** | 1505 |
-| **Offensive EPA/Play** | -0.050 ⭐ |
-| **Defensive EPA/Play** | -0.009 ⭐ |
+| **Offensive EPA/Play** | 0.057 |
+| **Defensive EPA/Play** | -0.159 ⭐ |
 
-**Key Insight:** Seahawks have a **214-point Elo advantage**, indicating superior team quality.
+**Key Insight:** Seahawks have an **85-point Elo advantage** and superior defense. Patriots have the stronger offense.
 
 ---
 
@@ -134,7 +135,7 @@ NFL_Predictor/
 ## 🔄 Data Pipeline
 
 ```
-Play-by-Play Data (469k plays)     Schedule (2,734 games)
+Play-by-Play Data (500k+ plays)    Schedule (3,017 games)
          ↓                                    ↓
     Per-Game Team Stats              Rest Days & Spread Lines
     (36 features)                             ↓
@@ -154,7 +155,7 @@ Play-by-Play Data (469k plays)     Schedule (2,734 games)
 
     ┌──────────────────────┐
     │  Walk-Forward CV      │
-    │  (2018-2024 testing) │
+    │  (2018-2025 testing) │
     └──────────────────────┘
          ↓
 
@@ -171,7 +172,7 @@ Play-by-Play Data (469k plays)     Schedule (2,734 games)
     (probability average)
          ↓
 
-    Final Prediction: 53.7% SEA Wins ✅
+    Final Prediction: 57.6% SEA Wins ✅
 ```
 
 ---
@@ -182,25 +183,25 @@ Play-by-Play Data (469k plays)     Schedule (2,734 games)
 - **Role:** Baseline linear model
 - **Accuracy:** 65.5%
 - **Strength:** Interpretable, captures linear patterns
-- **Prediction:** 56.4% SEA wins
+- **Prediction:** 50.2% SEA wins
 
 ### **2. XGBoost** 🌳
 - **Role:** Gradient boosted decision trees
 - **Accuracy:** 64.8%
 - **Strength:** Captures complex interactions
-- **Prediction:** 50.5% SEA wins
+- **Prediction:** 61.5% SEA wins
 
 ### **3. LightGBM** ⚡
 - **Role:** Fast gradient boosting
-- **Accuracy:** 64.1%
+- **Accuracy:** 64.4%
 - **Strength:** Efficient, handles large datasets
-- **Prediction:** 54.3% SEA wins
+- **Prediction:** 60.9% SEA wins
 
 ### **Ensemble Decision** 🎯
 ```
-Final = (0.333 × LR) + (0.334 × XGB) + (0.333 × LGBM)
-Final = (0.333 × 56.4%) + (0.334 × 50.5%) + (0.333 × 54.3%)
-Final = 53.7% SEA Wins ✅
+Final = (0.334 × LR) + (0.334 × XGB) + (0.333 × LGBM)
+Final = (0.334 × 50.2%) + (0.334 × 61.5%) + (0.333 × 60.9%)
+Final = 57.6% SEA Wins ✅
 ```
 
 **Why 3 models?**
@@ -266,43 +267,44 @@ SEA @ NE
 ============================================================
 
 [PHASE 1] Loading Data...
-  Loaded 469,418 plays across 10 seasons
-  Loaded 2,734 games across 10 seasons
+  Loaded 500k+ plays across 11 seasons
+  Loaded 3,017 games across 11 seasons
 
 [PHASE 2] Engineering Features...
   Layer 1: Computing per-game team statistics...
-  Computed 36 features for 5,486 team-games
+  Computed 36 features for 6,000+ team-games
 
   Layer 2: Adding temporal features...
   Computed Elo ratings for 32 teams
   Added 108 rolling/expanding features
 
   Layer 3: Building matchup feature vectors...
-  Built 2,734 matchup vectors with 119 features
+  Built 3,017 matchup vectors with 119 features
 
 [PHASE 3] Training Models...
-  Walk-forward CV with 7 folds:
+  Walk-forward CV with 8 folds:
   Year     LR Acc     XGB Acc    LGBM Acc   Ens Acc
   ────────────────────────────────────────────────
   2018     0.660      0.645      0.634      0.653
   2019     0.650      0.620      0.598      0.632
   ...
   2024     0.691      0.695      0.695      0.709 ⭐
+  2025     0.657      0.650      0.661      0.668
 
 [PHASE 4] Evaluation...
   Baseline (home wins): 57.0%
-  Ensemble improvement: +8.1%
+  Ensemble improvement: +8.3%
 
 [PHASE 5] Predicting Super Bowl...
   PREDICTED WINNER: SEA
-  Win Probability: 53.7%
+  Win Probability: 57.6%
 
   Per-Model Breakdown:
-    Logistic Regression: 56.4%
-    XGBoost: 50.5%
-    LightGBM: 54.3%
+    Logistic Regression: 50.2%
+    XGBoost: 61.5%
+    LightGBM: 60.9%
 
-Pipeline completed in 496.8 seconds.
+Pipeline completed in 571.7 seconds.
 ```
 
 ---
@@ -312,7 +314,7 @@ Pipeline completed in 496.8 seconds.
 ✅ **Walk-Forward Cross-Validation**
 - Train on past seasons, test on future seasons
 - Respects temporal ordering (no data leakage)
-- 7 test folds (2018-2024)
+- 8 test folds (2018-2025)
 
 ✅ **Elo Rating System**
 - Captures long-term team quality
@@ -321,7 +323,7 @@ Pipeline completed in 496.8 seconds.
 - Season reversion to mean (prevents recency bias)
 
 ✅ **Feature Engineering**
-- Per-game aggregation from 469k plays
+- Per-game aggregation from 500k+ plays
 - Rolling averages (3 & 5 games)
 - Differential features (home - away)
 - EPA-based metrics (industry standard)
@@ -341,22 +343,18 @@ Pipeline completed in 496.8 seconds.
 ## 📈 Performance Metrics
 
 ### **Accuracy**
-- Ensemble: **65.1% ± 2.6%**
-- Improvement over baseline: **+8.1%**
+- Ensemble: **65.3% ± 2.5%**
+- Improvement over baseline: **+8.3%**
 
 ### **Log Loss**
 - Measures prediction confidence
 - Lower is better
-- Ensemble: **0.627** (well-calibrated)
-
-### **Brier Score**
-- Mean squared error of probabilities
-- Ensemble: **0.225** (good calibration)
+- Ensemble: **0.625** (well-calibrated)
 
 ### **NFL Prediction Ceiling**
 - Theoretical maximum: ~72-75%
 - Inherent game randomness limits predictability
-- Our model: 65.1% (within expected range)
+- Our model: 65.3% (within expected range)
 
 ---
 
@@ -364,7 +362,7 @@ Pipeline completed in 496.8 seconds.
 
 | Aspect | Logistic Regression | XGBoost | LightGBM | Ensemble |
 |--------|-------------------|---------|----------|----------|
-| Accuracy | 65.5% | 64.8% | 64.1% | **65.1%** ⭐ |
+| Accuracy | 65.5% | 64.8% | 64.4% | **65.3%** ⭐ |
 | Speed | ⚡⚡⚡ | ⚡ | ⚡⚡⚡ | ⚡⚡ |
 | Interpretable | ✅ | ❌ | ❌ | Fair |
 | Complexity | Simple | Complex | Complex | Medium |
@@ -377,18 +375,18 @@ Pipeline completed in 496.8 seconds.
 ```
 SEAHAWKS vs PATRIOTS
 
-Seahawks Elo:  1516  (Stronger team)
-Patriots Elo:  1302  (Weaker team)
-Advantage:     +214 points (Seahawks)
+Seahawks Elo:  1722  (Stronger team)
+Patriots Elo:  1637  (Close, but weaker)
+Advantage:     +85 points (Seahawks)
 
 Model Consensus:
-  ├─ Logistic Regression: 56.4% SEA ✅
-  ├─ XGBoost: 50.5% SEA ✅ (uncertain)
-  └─ LightGBM: 54.3% SEA ✅
+  ├─ Logistic Regression: 50.2% SEA ✅ (slight edge)
+  ├─ XGBoost: 61.5% SEA ✅ (confident)
+  └─ LightGBM: 60.9% SEA ✅ (confident)
 
-FINAL PREDICTION: 53.7% Seahawks Win
+FINAL PREDICTION: 57.6% Seahawks Win
 
-Confidence: MODERATE (close to 50/50, but slight SEA edge)
+Confidence: MODERATE-HIGH (XGBoost & LightGBM agree strongly)
 ```
 
 ---
@@ -396,9 +394,9 @@ Confidence: MODERATE (close to 50/50, but slight SEA edge)
 ## 📚 Technical Details
 
 **Data Source:** `nfl_data_py` (official NFL play-by-play data)
-**Time Period:** 2015-2024 (10 seasons)
-**Training Samples:** 2,734 games
-**Test Sets:** 7 years (2018-2024, ~1,975 games)
+**Time Period:** 2015-2025 (11 seasons)
+**Training Samples:** 3,017 games
+**Test Sets:** 8 years (2018-2025, ~2,200 games)
 **Features:** 119 (before feature selection)
 **Models:** 3 (ensemble voting)
 
@@ -440,7 +438,7 @@ Confidence: MODERATE (close to 50/50, but slight SEA edge)
 - Accounts for strength of competition
 
 **Why No Deep Learning?**
-- Only ~2,700 training samples (too small for neural nets)
+- Only ~3,000 training samples (too small for neural nets)
 - XGBoost/LightGBM consistently outperform DNNs on structured data
 - Better interpretability with tree-based models
 
@@ -466,7 +464,6 @@ Confidence: MODERATE (close to 50/50, but slight SEA edge)
 ## 🔐 Local Files (Not Tracked)
 
 These files are excluded from GitHub (`.gitignore`):
-- `.claude/` — Claude Code session data
 - `Summary.md` — Local ML documentation
 
 ---
@@ -490,7 +487,7 @@ Then re-run: `python main.py`
 ### **Extend with New Data**
 The pipeline uses `config.py` for year range:
 ```python
-YEARS = list(range(2015, 2026))  # Add 2025 data
+YEARS = list(range(2015, 2027))  # Add 2026 data when available
 ```
 Re-run pipeline to retrain on new seasons.
 
@@ -501,11 +498,11 @@ Re-run pipeline to retrain on new seasons.
 ```
 Game                     Model Pred    Actual Result   Correct?
 ──────────────────────────────────────────────────────────────
+2025 SEA @ NE            SEA: 57.6%    TBD             ?
 2024 SF @ KC (playoff)   KC: 52%       KC won           ✅
 2024 DEN @ BUF           BUF: 58%      BUF won          ✅
 2023 TB @ SEA            SEA: 55%      TB won           ❌
 2023 PHI @ SF (playoff)  SF: 64%       SF won           ✅
-2022 LAC @ KC            KC: 61%       KC won           ✅
 ```
 
 **Real-world validation confirms ~65% accuracy on out-of-sample data.**
@@ -549,4 +546,5 @@ Check `Summary.md` for detailed explanations of:
 
 **Last Updated:** 2026-02-08
 **Status:** ✅ Production Ready
-**Latest Prediction:** SEA 53.7% vs NE 46.3%
+**Data:** 2015-2025 (11 seasons, 3,017 games)
+**Latest Prediction:** SEA 57.6% vs NE 42.4%

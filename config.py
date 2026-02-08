@@ -1,7 +1,7 @@
 """Configuration constants for the NFL Predictor pipeline."""
 
 # Year range for historical data
-YEARS = list(range(2015, 2025))  # 2015-2024
+YEARS = list(range(2015, 2026))  # 2015-2024
 
 # Minimum year for walk-forward validation test sets
 MIN_TEST_YEAR = 2018
