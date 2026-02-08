@@ -462,15 +462,7 @@ Confidence: MODERATE (close to 50/50, but slight SEA edge)
 | `utils/constants.py` | Team abbreviation normalization |
 
 ---
-
-## 🔐 Local Files (Not Tracked)
-
-These files are excluded from GitHub (`.gitignore`):
-- `.claude/` — Claude Code session data
-- `Summary.md` — Local ML documentation
-
----
-
+]
 ## 🚀 How to Use
 
 ### **View the Prediction**
