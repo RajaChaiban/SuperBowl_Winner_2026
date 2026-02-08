@@ -534,15 +534,6 @@ Created with Python, scikit-learn, XGBoost, LightGBM
 
 ---
 
-## 📞 Questions?
-
-Check `Summary.md` for detailed explanations of:
-- The 3 ML frameworks (simple analogies)
-- All 119 features and their meanings
-- Why we use ensemble methods
-- How Elo ratings work
-
----
 
 **Last Updated:** 2026-02-08
 **Status:** ✅ Production Ready
